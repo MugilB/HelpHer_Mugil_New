@@ -1,0 +1,14 @@
+.back {
+    display: flex;
+    background-image: url('https://img.freepik.com/premium-photo/pink-white-picture-woman-running-beach_916191-292545.jpg?w=740');
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    flex-direction: column;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  

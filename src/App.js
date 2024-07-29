@@ -16,6 +16,18 @@ import Food from './components/Food';
 import Blood from './components/Blood';
 import BloodC from './components/BloodC';
 import DoctorCard from './components/DoctorCard';
+import Mental from './components/Mental';
+import Bapart from './components/Bapart';
+import Room from './components/Room';
+import Cyber from './components/Cyber';
+import RoomsC from './components/RoomsC';
+import CyberC from './components/CyberC';
+import FitnessTips from './components/FitnessTips';
+import Dashboard from './components/Dashboard';
+import AdminDashboard from './components/AdminDashboard';
+import AboutUs from './components/AboutUs';
+import Delievery from './components/Delievery';
+import DelieveryC from './components/DelieveryC';
 
 
 const doctor = {
@@ -30,16 +42,28 @@ const doctor = {
 function App() {
   return (
     <Routes>    
-      <Route path="/" element={<SignInSide />} />
+      <Route path="/" element={<SignInSide/>} />
       <Route path="/signup" element={<SignUpSide />} />
       <Route path="/main" element={<Home/>} />
       <Route path="/service" element={<Services/>} />
       <Route path="/bike" element={<Map/>}/>
       <Route path="/MapC" element={<MapC/>}/>
+      <Route path="/DelieveryC" element={<DelieveryC/>}/>
       <Route path="/BloodC" element={<BloodC/>}/>
       <Route path="/blood" element={<Blood/>}/>
       <Route path="/preg" element={<DoctorCard/>}/>
+      <Route path="/mental" element={<Mental/>}/>
+      <Route path="/food" element={<Delievery/>}/>
+      <Route path="/Rooms" element={<Room/>}/>
+      <Route path="/RoomsC" element={<RoomsC/>}/>
+      <Route path="/about" element={<AboutUs/>}/>
+      <Route path="/cyber" element={<Cyber/>}/>
+      <Route path="/CyberC" element={<CyberC/>}/>
+      <Route path="/fitness" element={<FitnessTips/>}/>
+      <Route path="*" element={<AdminDashboard />} />      
+      
     </Routes>
+    //<AdminDashboard/>
     //<DoctorCard />
     //<Food/>
     // <Place/>

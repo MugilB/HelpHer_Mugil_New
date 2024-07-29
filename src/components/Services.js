@@ -27,6 +27,7 @@ const Services = () => {
   return (
     <ThemeProvider theme={theme}>
         
+      <Box className="background">
       <Box className="glass-nav">
           <AppBar position="static" className="glass-nav">
             <Toolbar>
@@ -34,15 +35,14 @@ const Services = () => {
                 HelpHer
               </Typography>
               <Button color="inherit" component={RouterLink} to="/service">Services</Button>
-              <Button color="inherit">About</Button>
-              <Button color="inherit">SOS</Button>
-              <Button color="inherit">Support</Button>
-              <Avatar sx={{ bgcolor: deepOrange[500] }}>M</Avatar>
+              <Button color="inherit" component={RouterLink} to="/about">About</Button>
+              <Button color="inherit" component={RouterLink} to="/sos">SOS</Button>              
+              <Avatar sx={{ bgcolor: deepOrange[500] }} component={RouterLink} to="/profile">M</Avatar>
             </Toolbar>
           </AppBar>
         </Box>
 
-      <Box className="background">
+
 
         <Box className="grid-container">
             <Typography variant="h4" align="center" gutterBottom>SERVICES</Typography>
@@ -54,13 +54,13 @@ const Services = () => {
               </Box>
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
-              <Box className="glass-card">
+              <Box className="glass-card" component={RouterLink} to="/food">
                 <img src={delievery} style={{borderRadius: '50%'}} height="50px" width="50px" />
-                Food Delivery
+                Pick & Drop
               </Box>
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
-              <Box className="glass-card">
+              <Box className="glass-card" component={RouterLink} to="/Rooms">
                 <img src={rooms} style={{borderRadius: '50%'}} height="50px" width="50px" />
                 Rooms
               </Box>
@@ -78,19 +78,19 @@ const Services = () => {
               </Box>
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
-              <Box className="glass-card">
+              <Box className="glass-card" component={RouterLink} to="/cyber">
                 <img src={cyber} style={{borderRadius: '50%'}} height="50px" width="50px" />
                 Cyber Crime
               </Box>
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
-              <Box className="glass-card">
+              <Box className="glass-card" component={RouterLink} to="/mental">
                 <img src={talk}  height="50px" width="50px" />
                 Mental Counselling
               </Box>
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
-              <Box className="glass-card">
+              <Box className="glass-card" component={RouterLink} to="/fitness">
                 <img src={gym}  height="50px" width="50px" />
                 Fitness
               </Box>

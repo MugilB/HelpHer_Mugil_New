@@ -31,10 +31,9 @@ const Home = () => {
                 HelpHer
               </Typography>
               <Button color="inherit" component={RouterLink} to="/service">Services</Button>
-              <Button color="inherit">About</Button>
-              <Button color="inherit">SOS</Button>
-              <Button color="inherit">Support</Button>
-              <Avatar sx={{ bgcolor: deepOrange[500] }}>M</Avatar>
+              <Button color="inherit" component={RouterLink} to="/about">About</Button>
+              <Button color="inherit" component={RouterLink} to="/sos">SOS</Button>              
+              <Avatar sx={{ bgcolor: deepOrange[500] }} component={RouterLink} to="/profile">M</Avatar>
             </Toolbar>
           </AppBar>
         </Box>
@@ -53,7 +52,14 @@ const Home = () => {
           <Typography style={{ fontSize: '40px', marginBottom: '24px' }}>
             Empower Woman Safety and Society
           </Typography>
-          <Button component={RouterLink} to="/service" variant="contained" endIcon={<SendIcon />} size="large">
+          <Button component={RouterLink} to="/service" variant="contained" endIcon={<SendIcon />} size="large" sx={{
+            backdropFilter: 'blur(10px)',
+            background: 'rgba(255, 255, 255, 0.1)',
+            color: 'white',
+            '&:hover': {
+              background: 'rgba(255, 255, 255, 0.2)',
+            },
+          }}>
             Ask Help
           </Button>
         </Box>

@@ -1,4 +1,7 @@
+// SignInSide.js
 import * as React from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,11 +15,12 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled } from '@mui/system';
 import logo from './1.png';
 import google from './google.png';
 import facebook from './facebook.png';
 import twitter from './twitter.jpg';
-import { Link as RouterLink } from 'react-router-dom'; 
+import { Link as RouterLink } from 'react-router-dom';
 
 function Copyright(props) {
   return (
@@ -33,14 +37,57 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
+const CustomTextField = styled(TextField)({
+  '& .MuiInputBase-input': {
+    backgroundColor: 'transparent',
+  },
+  '& .MuiInput-underline:before': {
+    borderBottomColor: 'rgba(255, 255, 255, 0.5)',
+  },
+  '& .MuiInput-underline:hover:before': {
+    borderBottomColor: 'rgba(255, 255, 255, 0.75)',
+  },
+  '& .MuiInput-underline:after': {
+    borderBottomColor: 'rgba(255, 255, 255, 0.75)',
+  },
+});
+
 export default function SignInSide() {
+  const navigate = useNavigate();
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
+
+  const handleLogin = () => {
+    const hardcodedUsername = '22csecs.mugil.b@skct.edu.in';
+    const hardcodedPassword = 'Mugpas@23';
+
+    const hardcodedUsername1 = 'admin@gmail.com';
+    const hardcodedPassword1 = 'admin@123';
+
+    if (username === hardcodedUsername && password === hardcodedPassword) {
+      if (rememberMe) {
+        localStorage.setItem('username', username);
+      }
+      navigate('/main');
+    } 
+
+    else if (username === hardcodedUsername1 && password === hardcodedPassword1) {
+      if (rememberMe) {
+        localStorage.setItem('username', username);
+      }
+      navigate('/dashboard');
+    } 
+    
+    else {
+      alert('Invalid username or password');
+    }
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    handleLogin();
   };
 
   return (
@@ -54,7 +101,6 @@ export default function SignInSide() {
             backgroundAttachment: 'fixed',
             backgroundPosition: 'fixed',
             border: '1px solid rgba(255, 255, 255, 0.18)',
-            
           }}>
         <CssBaseline />
         <Grid
@@ -62,7 +108,6 @@ export default function SignInSide() {
           xs={false}
           sm={4}
           md={7}
-          
         />
         <Grid
           item
@@ -103,7 +148,7 @@ export default function SignInSide() {
               Sign in
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-              <TextField
+              <CustomTextField
                 margin="normal"
                 required
                 fullWidth
@@ -112,8 +157,9 @@ export default function SignInSide() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                onChange={(e) => setUsername(e.target.value)}
               />
-              <TextField
+              <CustomTextField
                 margin="normal"
                 required
                 fullWidth
@@ -122,13 +168,15 @@ export default function SignInSide() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                onChange={(e) => setPassword(e.target.value)}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
+                onChange={(e) => setRememberMe(e.target.checked)}
               />
               <Button
-                type="submit" component={RouterLink} to="/main"
+                type="submit" 
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}

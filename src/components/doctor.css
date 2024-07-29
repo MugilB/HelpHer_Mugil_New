@@ -4,21 +4,32 @@
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     border: 1px solid rgba(255, 255, 255, 0.3);
+    
   }
   
+  .grid
+  {
+    margin-top: 40px;
+    justify-content: center;
+    align-items: center;
+  }
+
   .bg {
     display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-height: 100vh;
-background-image: url('https://img.freepik.com/premium-photo/woman-suit-stands-front-pink-background_911060-39522.jpg?w=826');
-background-color: rgba(255, 255, 255, 0.5);
-backdrop-filter: blur(10px);
-background-size: cover;
-background-attachment: fixed;
-background-position: center;
-  }
+    flex-direction: column;
+    background-image: url('https://img.freepik.com/premium-photo/pink-white-pills-pink_107210-281.jpg?w=740');
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    background-size: cover;
+    background-attachment: fixed; /* Ensures background stays fixed */
+    background-position: center;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    flex-direction: column;
+    min-height: 100vh;
+    overflow: hidden;
+     
+}
+
   
   .card {
     backdrop-filter: blur(10px);
