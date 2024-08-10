@@ -1,20 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Autocomplete, Button } from '@mui/material';
 import bikebg from '../logo/bikebg.jpg';
 import { useNavigate } from 'react-router-dom';
 
-const locations = [
-  { label: 'Sri Krishna College of Technology', value: 'location1' },
-  { label: 'Gandhipuram', value: 'location2' },
-  { label: 'Kovaipudur', value: 'location3' },  
-];
-
 const Map = () => {
+  const locations = [
+    { label: 'Sri Krishna College of Technology', value: 'location1' },
+    { label: 'Gandhipuram', value: 'location2' },
+    { label: 'Kovaipudur', value: 'location3' },
+  ];
+
   const [pickupValue, setPickupValue] = useState('');
   const [destinationValue, setDestinationValue] = useState('');
   const [pickupOptions, setPickupOptions] = useState(locations);
   const [destinationOptions, setDestinationOptions] = useState(locations);
+  const [email, setEmail] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Fetch email from localStorage or sessionStorage
+    const storedEmail = localStorage.getItem('username') || sessionStorage.getItem('username');
+    if (storedEmail) {
+      setEmail(storedEmail);
+    }
+    console.log('Fetched Email:', storedEmail); // Debugging
+  }, []);
 
   const handlePickupSelect = (event, value) => {
     setPickupValue(value);
@@ -35,8 +45,11 @@ const Map = () => {
     const rideRequest = {
       pickupLocation: pickupValue,
       destinationLocation: destinationValue,
-      userId: 'dummyUserId' // Replace with actual user ID if available
+      email: email, // Ensure this matches the backend field
+      // Email is directly sent here
     };
+
+    console.log('Ride Request:', rideRequest); // Debugging
 
     try {
       const response = await fetch('http://localhost:8080/api/ride-requests/request', {
@@ -52,10 +65,12 @@ const Map = () => {
         navigate('/MapC');
       } else {
         alert('Failed to send ride request');
+        const errorText = await response.text();
+        console.error('Error Response:', errorText); // Debugging
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('An error occurred');
+      alert('An error occurred while sending the ride request.');
     }
   };
 

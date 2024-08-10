@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TextField, Autocomplete } from '@mui/material';
 import axios from 'axios';
 import bikebg from '../logo/travel.jpg';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
@@ -21,6 +21,16 @@ const Room = () => {
   const [destinationOptions, setDestinationOptions] = useState(locations);
   const [bookingDate, setBookingDate] = useState(dayjs());
   const [vacatingDate, setVacatingDate] = useState(dayjs());
+  const [email, setEmail] = useState('');
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem('username') || sessionStorage.getItem('username');
+    if (storedEmail) {
+      setEmail(storedEmail);
+    }
+    console.log('Fetched Email:', storedEmail); // Debugging
+  }, []);
 
   const handlePickupSelect = (event, value) => {
     setPickupValue(value);
@@ -39,9 +49,11 @@ const Room = () => {
         destinationLocation: destinationValue,
         bookingDate: bookingDate.toDate(),
         vacatingDate: vacatingDate.toDate(),
+        email: email, // Pass the email from local storage
       });
       console.log('Room booked successfully:', response.data);
       window.alert('Room booked successfully!');
+      navigate('/RoomsC'); // Redirect to /RoomsC after successful booking
     } catch (error) {
       console.error('Error booking room:', error);
       window.alert('Error booking room. Please try again.');
@@ -104,28 +116,26 @@ const Room = () => {
               />
             </LocalizationProvider>
           </div>
-          <Link to="/RoomsC" style={{ textDecoration: 'none' }}>
-            <button
-              type="button"
-              style={{
-                width: '100%',
-                fontSize: '20px',
-                padding: '15px',
-                backgroundColor: '#4CAF50',
-                color: 'white',
-                border: 'none',
-                borderRadius: '14px',
-                cursor: 'pointer',
-                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-                transition: 'background-color 0.3s',
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#45a049'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#4CAF50'}
-              onClick={handleSubmit}
-            >
-              Book Room
-            </button>
-          </Link>
+          <button
+            type="button"
+            style={{
+              width: '100%',
+              fontSize: '20px',
+              padding: '15px',
+              backgroundColor: '#4CAF50',
+              color: 'white',
+              border: 'none',
+              borderRadius: '14px',
+              cursor: 'pointer',
+              boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+              transition: 'background-color 0.3s',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#45a049'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#4CAF50'}
+            onClick={handleSubmit}
+          >
+            Book Room
+          </button>
         </form>
       </div>
     </div>

@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -14,10 +12,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { styled } from '@mui/system';
 import axios from 'axios';
-import logo from './1.png';
 import google from './google.png';
-import facebook from './facebook.png';
-import twitter from './twitter.jpg';
 import aadhar from './aadhar.png'; // Add Aadhar logo
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -56,32 +51,39 @@ export default function Login() {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
+  const [rememberMe,setRememberMe] = useState(false);
 
   const handleLogin = async () => {
+    const payload = {
+      email: username,
+      password: password,
+    };
+
     try {
-      const response = await axios.post('http://localhost:8080/login/check', {
-        email: username,
-        password: password,
+      const response = await axios.post('http://localhost:8080/login/check', payload, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
-  
-      if (response.status === 200) {
+
+      if (response.data.success) {
         if (rememberMe) {
           localStorage.setItem('username', username);
-        }
-  
-        // Check the user's role from the response
-        if (response.data.role === 'admin') {
-          navigate('/dashboard');
         } else {
-          navigate('/main');
+          sessionStorage.setItem('username', username);
+        }
+
+        if (response.data.role === 'admin') {
+          navigate('/dashboard'); 
+        } else {
+          navigate('/services');
         }
       } else {
-        alert('Invalid username or password');
+        alert(response.data.message);
       }
     } catch (error) {
-      console.error('Login error:', error);
-      alert('Invalid username or password');
+      console.error('There was an error logging in!', error);
+      alert('Login failed. Please try again.');
     }
   };
 
@@ -100,7 +102,6 @@ export default function Login() {
           md={7}
           sx={{
             backgroundImage: 'url("https://img.freepik.com/free-vector/tablet-login-concept-illustration_114360-7863.jpg?t=st=1722685998~exp=1722689598~hmac=b787c19f809c5b33f5fa9b82ce572c048627a3ebd0d16feb2204ad7eec4c29ad&w=740")',
-            
             backgroundSize: 'contain',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
@@ -134,16 +135,6 @@ export default function Login() {
               alignItems: 'center',
             }}
           >
-            {/* <img
-              src={logo}
-              alt="Logo"
-              style={{
-                borderRadius: '50%',
-                marginBottom: '20px',
-              }}
-              width="100"
-              height="100"
-            /> */}
             <Typography component="h1" variant="h5">
               Log In to Your Account
             </Typography>
@@ -170,10 +161,6 @@ export default function Login() {
                 autoComplete="current-password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" onChange={(e) => setRememberMe(e.target.checked)} />}
-                label="Remember me"
-              />
               <Button
                 type="submit"
                 fullWidth
@@ -194,8 +181,7 @@ export default function Login() {
                   </Link>
                 </Grid>
               </Grid>
-              <div style={{textAlign:'center',fontSize:'20px'}}> or</div>
-              
+              <div style={{ textAlign: 'center', fontSize: '20px' }}>or</div>
               <Box sx={{
                 my: 2,
                 display: 'flex',
@@ -210,10 +196,9 @@ export default function Login() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     mb: 2,
-                    borderRadius:'30px',
+                    borderRadius: '30px',
                     borderColor: 'black', // Light border color
                     color: 'black', // Text color
-                    
                   }}
                   onClick={() => {/* Handle Google Login */}}
                 >
@@ -234,11 +219,10 @@ export default function Login() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     mb: 2,
-                    borderRadius:'30px',
+                    borderRadius: '30px',
                     borderColor: 'black', // Light border color
                     color: 'black', // Text color
                     backgroundColor: 'transparent', // Transparent background
-                    
                   }}
                   onClick={() => {/* Handle Aadhar Login */}}
                 >

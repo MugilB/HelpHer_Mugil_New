@@ -89,7 +89,7 @@ function App() {
       <Route path="/emergency" element={<SosC/>}/>
       <Route path="/login" element={<Login/>}/>        
       <Route path="/signup" element={<CreateAccount/>}/>     
-      <Route path="/main" element={<Helps/>}/>     
+      <Route path="/services" element={<Helps/>}/>     
       <Route path="/bike" element={<Map/>}/>
       <Route path="/MapC" element={<MapC/>}/>
       <Route path="/DelieveryC" element={<DelieveryC/>}/>

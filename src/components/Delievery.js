@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Autocomplete, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -13,9 +13,21 @@ const locations = [
 const Delievery = () => {
     const [pickupValue, setPickupValue] = useState('');
     const [destinationValue, setDestinationValue] = useState('');
+    const [receiverName, setReceiverName] = useState('');
+    const [receiverEmail, setReceiverEmail] = useState('');
+    const [receiverPhone, setReceiverPhone] = useState('');
     const [pickupOptions] = useState(locations);
     const [destinationOptions] = useState(locations);
+    const [email, setEmail] = useState('');
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const storedEmail = localStorage.getItem('username') || sessionStorage.getItem('username');
+        if (storedEmail) {
+            setEmail(storedEmail);
+        }
+        console.log('Fetched Email:', storedEmail); // Debugging
+    }, []);
 
     const handlePickupSelect = (event, value) => {
         setPickupValue(value);
@@ -28,21 +40,36 @@ const Delievery = () => {
     };
 
     const handleSubmit = async () => {
-        if (!pickupValue || !destinationValue) {
-            alert('Please fill in both the pickup and destination fields.');
+        if (!pickupValue || !destinationValue || !email || !receiverName || !receiverEmail || !receiverPhone) {
+            alert('Please fill in all fields.');
             return;
         }
 
         const deliveryRequest = {
             pickupLocation: pickupValue,
             destinationLocation: destinationValue,
+            email: email,
+            receiverName: receiverName,
+            receiverEmail: receiverEmail,
+            receiverPhone: receiverPhone
         };
 
+        console.log('Delivery Request:', deliveryRequest); // Debugging
+
         try {
-            await axios.post('http://localhost:8080/api/delivery-requests/request', deliveryRequest);
-            navigate('/DelieveryC');
+            const response = await axios.post('http://localhost:8080/api/delivery-requests/request', deliveryRequest);
+
+            if (response.status === 200) {
+                alert('Ride request sent successfully');
+                navigate('/DelieveryC');
+            } else {
+                alert('Failed to send ride request');
+                const errorText = await response.data; // Error message from the response body
+                console.error('Error Response:', errorText); // Debugging
+            }
         } catch (error) {
             console.error('Error creating delivery request:', error);
+            alert('Failed to create delivery request.');
         }
     };
 
@@ -59,7 +86,7 @@ const Delievery = () => {
                     referrerPolicy="no-referrer-when-downgrade"
                 ></iframe>
             </div>
-            
+
             <div style={{ flex: 1, padding: '10px', borderLeft: '1px solid #ccc' }}>
                 <img
                     src="https://img.freepik.com/free-vector/illustration-person-doing-delivery-activities_23-2148504098.jpg?t=st=1722159457~exp=1722163057~hmac=7793cc5eaeff2d62efec8a2acba54d22723ac9878787d4f4763d41fbd722eec3&w=740"
@@ -91,6 +118,27 @@ const Delievery = () => {
                                 <TextField {...params} sx={{ mb: 2 }} label="Enter Destination" />
                             )}
                         />
+                        <TextField
+                            label="Receiver Name"
+                            value={receiverName}
+                            onChange={(e) => setReceiverName(e.target.value)}
+                            fullWidth
+                            sx={{ mb: 2 }}
+                        />
+                        <TextField
+                            label="Receiver Email"
+                            value={receiverEmail}
+                            onChange={(e) => setReceiverEmail(e.target.value)}
+                            fullWidth
+                            sx={{ mb: 2 }}
+                        />
+                        <TextField
+                            label="Receiver Phone Number"
+                            value={receiverPhone}
+                            onChange={(e) => setReceiverPhone(e.target.value)}
+                            fullWidth
+                            sx={{ mb: 2 }}
+                        />
                     </div>
                     <Button
                         type="button"
@@ -98,7 +146,6 @@ const Delievery = () => {
                         style={{
                             width: '100%',
                             fontSize: '20px',
-                            
                             backgroundColor: '#4CAF50',
                             color: 'white',
                             border: 'none',
