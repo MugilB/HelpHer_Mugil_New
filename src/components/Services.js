@@ -36,8 +36,8 @@ const Services = () => {
               </Typography>
               <Button color="inherit" component={RouterLink} to="/service">Services</Button>
               <Button color="inherit" component={RouterLink} to="/about">About</Button>
-              <Button color="inherit" component={RouterLink} to="/sos">SOS</Button>              
-              <Avatar sx={{ bgcolor: deepOrange[500] }} component={RouterLink} to="/profile">M</Avatar>
+              {/* <Button color="inherit" component={RouterLink} to="/sos">SOS</Button>               */}
+              <Avatar sx={{ bgcolor: deepOrange[500] }} style={{ textDecoration: 'none' }} component={RouterLink} to="/profile">M</Avatar>
             </Toolbar>
           </AppBar>
         </Box>

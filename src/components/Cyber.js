@@ -1,139 +1,138 @@
-import React, { useState, useEffect } from 'react';
-import { TextField, Autocomplete, Button, Typography } from '@mui/material';
-import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api';
-import bikebg from '../logo/bikebg.jpg';
-import { Link, Link as RouterLink } from 'react-router-dom'; 
+import React, { useState } from 'react';
+import { TextField, Button, Typography } from '@mui/material';
 import { VisuallyHiddenInput } from '@chakra-ui/react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-
-const libraries = ['places'];
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Cyber = () => {
-  const [options, setOptions] = useState([]);
-  const [inputValue, setInputValue] = useState('');
+  const [name, setName] = useState('');
+  const [age, setAge] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [email, setEmail] = useState('');
+  const [complaintText, setComplaintText] = useState(''); // Updated state name
+  const [fileName, setFileName] = useState(''); // State for file name
 
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY, // Use environment variable
-    libraries,
-  });
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!isLoaded) return;
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    setFileName(selectedFile ? selectedFile.name : ''); // Update file name state
+    console.log(fileName);
+  };
 
-    const autocompleteService = new window.google.maps.places.AutocompleteService();
-
-    const fetchOptions = (input) => {
-      if (input === '') {
-        setOptions([]);
-        return;
-      }
-
-      autocompleteService.getPlacePredictions({ input }, (predictions, status) => {
-        if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-          setOptions(predictions.map((prediction) => ({
-            label: prediction.description,
-            placeId: prediction.place_id,
-          })));
-        } else {
-          setOptions([]);
-        }
-      });
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    
+    const complaintData = {
+      name,
+      age,
+      phoneNumber,
+      email,
+      complaintText, // Updated key name
+      fileName, // Send only the file name
     };
 
-    fetchOptions(inputValue);
-  }, [inputValue, isLoaded]);
+    console.log(complaintData);
 
-  const handlePlaceSelect = (event, value) => {
-    if (value) {
-      console.log('Selected Place:', value);
+    try {
+      const response = await axios.post('http://localhost:8080/api/complaints/file', complaintData);
+      console.log(response.data);
+      alert('Complaint filed successfully');
+      navigate('/CyberC');
+    } catch (error) {
+      console.error('There was an error!', error);
+      alert('Failed to file complaint');
     }
   };
 
-  if (loadError) return <div>Error loading Google Maps API</div>;
-
   return (
-    
-    <div style={{ display: 'flex', width: '100%', height: '600px' }}>
-      <div style={{ flex: 2, padding: '10px' }}>
-        <img src={"https://img.freepik.com/premium-vector/illustration-woman-sitting-desk-with-laptop-looking-stressed_844724-674.jpg?w=740"} />
+    <div style={{ display: 'flex', height: '100vh', alignItems: 'center' }}>
+      <div style={{ flex: 2, height: '100vh', padding: '5px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <img
+          src="https://img.freepik.com/premium-vector/illustration-woman-sitting-desk-with-laptop-looking-stressed_844724-674.jpg?w=740"
+          alt="Cyber Complaint"
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
       </div>
       
-      <div style={{ flex: 1, padding: '10px', borderLeft: '1px solid #ccc' }}>
-      
-        <h2 style={{textAlign:'center'}}>Cyber Complaint</h2>
-        <form>
-          <div style={{ marginBottom: '10px' }}>
-
+      <div style={{ flex: 1, padding: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <h2 style={{ textAlign: 'center' }}>Cyber Complaint</h2>
+        <form style={{ display: 'flex', flexDirection: 'column' }} onSubmit={handleSubmit}>
           <TextField
-                margin="normal"
-                required
-                fullWidth
-                
-                label="Name"
-                
-                autoFocus
-              />
+            margin="normal"
+            required
+            fullWidth
+            label="Name"
+            autoFocus
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
           <TextField
-                margin="normal"
-                required
-                fullWidth                
-                label="Age"
-                
-                autoFocus
-              />
+            margin="normal"
+            required
+            fullWidth
+            label="Age"
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
+          />
           <TextField
-                margin="normal"
-                required
-                fullWidth
-                
-                label="Phone Number"
-                
-                autoFocus
-              />
+            margin="normal"
+            required
+            fullWidth
+            label="Phone Number"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+          />
           <TextField
-                margin="normal"
-                required
-                fullWidth
-                
-                label="Your Complaint"
-                
-                autoFocus
-              />
-        
-    <Typography style={{marginTop:'20px',fontSize:'15px',fontWeight:'bold'}}>Upload proof</Typography>      
-    <Button
-      component="label"
-      role={undefined}
-      variant="contained"
-      tabIndex={-1}
-      startIcon={<CloudUploadIcon />}
-    >
-      Upload file
-      <VisuallyHiddenInput type="file" />
-    </Button>
-            
-          </div>
-          <Link to="/CyberC" style={{ textDecoration: 'none' }}>
-      <button
-        type="button"
-        style={{
-          width: '100%',
-          fontSize:'20px',
-          padding: '15px',
-          backgroundColor: 'red',
-          color: 'white',
-          border: 'none',
-          borderRadius: '14px',
-          cursor: 'pointer',
-        }}
-      >
-        File Complaint
-      </button>
-    </Link>
+            margin="normal"
+            required
+            fullWidth
+            label="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            label="Your Complaint"
+            value={complaintText} // Updated state usage
+            onChange={(e) => setComplaintText(e.target.value)} // Updated state setter
+          />
+          <Typography style={{ marginTop: '20px', fontSize: '15px', fontWeight: 'bold' }}>Upload proof</Typography>
+          <Button
+            component="label"
+            variant="contained"
+            startIcon={<CloudUploadIcon />}
+            style={{ marginBottom: '20px' }}
+          >
+            Upload file
+            <VisuallyHiddenInput type="file" onChange={handleFileChange} />
+          </Button>
+          {fileName && (
+            <Typography variant="body2" style={{ marginBottom: '20px', color: 'green' }}>
+              Selected file: {fileName}
+            </Typography>
+          )}
+          <Button
+            type="submit"
+            variant="contained"
+            style={{
+              width: '100%',
+              fontSize: '20px',
+              backgroundColor: 'red',
+              color: 'white',
+              border: 'none',
+              borderRadius: '14px',
+              cursor: 'pointer',
+            }}
+          >
+            File Complaint
+          </Button>
         </form>
       </div>
     </div>
-    
   );
 };
 

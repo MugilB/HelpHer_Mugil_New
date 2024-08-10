@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -19,6 +18,7 @@ import logo from './1.png';
 import google from './google.png';
 import facebook from './facebook.png';
 import twitter from './twitter.jpg';
+import aadhar from './aadhar.png'; // Add Aadhar logo
 import { Link as RouterLink } from 'react-router-dom';
 
 const defaultTheme = createTheme();
@@ -43,7 +43,7 @@ function Copyright(props) {
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        Help Her
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -51,7 +51,7 @@ function Copyright(props) {
   );
 }
 
-export default function SignInSide() {
+export default function Login() {
   const navigate = useNavigate();
 
   const [username, setUsername] = useState('');
@@ -84,29 +84,28 @@ export default function SignInSide() {
       alert('Invalid username or password');
     }
   };
-    const handleSubmit = (event) => {
+
+  const handleSubmit = (event) => {
     event.preventDefault();
     handleLogin();
   };
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{
-            backgroundImage: 'url("https://img.freepik.com/premium-photo/woman-polo-shirt-stands-front-pink-background_911060-39512.jpg?w=826")',
-            backgroundColor: 'rgba(255, 255, 255, 0.5)',
-            backdropFilter: 'blur(10px)',
-            boxShadow: '200000 4px 6px rgba(0, 0, 0, 0.1)',            
-            backgroundSize: 'cover',
-            backgroundAttachment: 'fixed',
-            backgroundPosition: 'fixed',
-            border: '1px solid rgba(255, 255, 255, 0.18)',
-          }}>
-        <CssBaseline />
+      <Grid container component="main" sx={{ height: '100vh' }}>
         <Grid
           item
           xs={false}
           sm={4}
           md={7}
+          sx={{
+            backgroundImage: 'url("https://img.freepik.com/free-vector/tablet-login-concept-illustration_114360-7863.jpg?t=st=1722685998~exp=1722689598~hmac=b787c19f809c5b33f5fa9b82ce572c048627a3ebd0d16feb2204ad7eec4c29ad&w=740")',
+            
+            backgroundSize: 'contain',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            height: '100vh',
+          }}
         />
         <Grid
           item
@@ -117,34 +116,36 @@ export default function SignInSide() {
           elevation={6}
           square
           sx={{
-            backgroundColor: 'rgba(255, 255, 255, 0.2)',
-            backdropFilter: 'blur(100px)',
-            boxShadow: '1000000px 4px 6px rgba(0, 0, 0, 0.1)',            
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
             border: '1px solid rgba(255, 255, 255, 0.18)',
+            boxShadow: 'none',
+            height: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           <Box
             sx={{
-              my: 2,
+              my: 8,
               mx: 4,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
             }}
           >
-            <img
+            {/* <img
               src={logo}
               alt="Logo"
               style={{
                 borderRadius: '50%',
-                marginLeft: 'auto',
-                marginRight: 'auto',
+                marginBottom: '20px',
               }}
-              width="200"
-              height="200"
-            />
+              width="100"
+              height="100"
+            /> */}
             <Typography component="h1" variant="h5">
-              Sign in
+              Log In to Your Account
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <CustomTextField
@@ -174,7 +175,7 @@ export default function SignInSide() {
                 label="Remember me"
               />
               <Button
-                type="submit" 
+                type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
@@ -183,7 +184,7 @@ export default function SignInSide() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link  variant="body2">
+                  <Link variant="body2">
                     Forgot password?
                   </Link>
                 </Grid>
@@ -193,37 +194,63 @@ export default function SignInSide() {
                   </Link>
                 </Grid>
               </Grid>
+              <div style={{textAlign:'center',fontSize:'20px'}}> or</div>
+              
               <Box sx={{
-                  my: 1,
-                  mx: 4,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                }}>
-                <Typography>Continue with</Typography>
-                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1 }}>
+                my: 2,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    mb: 2,
+                    borderRadius:'30px',
+                    borderColor: 'black', // Light border color
+                    color: 'black', // Text color
+                    
+                  }}
+                  onClick={() => {/* Handle Google Login */}}
+                >
                   <img
                     src={google}
                     alt="Google Logo"
-                    style={{ margin: '0 10px', borderRadius: '50px' }}
-                    width="50"
-                    height="50"
+                    style={{ marginRight: '10px' }}
+                    width="20"
+                    height="20"
                   />
+                  Continue with Google
+                </Button>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    mb: 2,
+                    borderRadius:'30px',
+                    borderColor: 'black', // Light border color
+                    color: 'black', // Text color
+                    backgroundColor: 'transparent', // Transparent background
+                    
+                  }}
+                  onClick={() => {/* Handle Aadhar Login */}}
+                >
                   <img
-                    src={facebook}
-                    alt="Facebook Logo"
-                    style={{ margin: '0 10px', borderRadius: '50px' }}
-                    width="50"
-                    height="50"
+                    src={aadhar}
+                    alt="Aadhar Logo"
+                    style={{ marginRight: '10px' }}
+                    width="20"
+                    height="20"
                   />
-                  <img
-                    src={twitter}
-                    alt="Twitter Logo"
-                    style={{ margin: '0 10px', borderRadius: '50px' }}
-                    width="50"
-                    height="50"
-                  />
-                </Box>
+                  Continue with Aadhar
+                </Button>
               </Box>
               <Copyright sx={{ mt: 5 }} />
             </Box>

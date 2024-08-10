@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Autocomplete } from '@mui/material';
+import axios from 'axios';
 import bikebg from '../logo/travel.jpg';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
@@ -31,9 +32,25 @@ const Room = () => {
     console.log('Selected Destination Location:', value);
   };
 
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post('http://localhost:8080/api/room-bookings/book', {
+        pickupLocation: pickupValue,
+        destinationLocation: destinationValue,
+        bookingDate: bookingDate.toDate(),
+        vacatingDate: vacatingDate.toDate(),
+      });
+      console.log('Room booked successfully:', response.data);
+      window.alert('Room booked successfully!');
+    } catch (error) {
+      console.error('Error booking room:', error);
+      window.alert('Error booking room. Please try again.');
+    }
+  };
+
   return (
-    <div style={{ display: 'flex', width: '100%', height: '600px', gap: '20px' }}>
-      <div style={{ flex: 2, padding: '20px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
+    <div style={{ display: 'flex', width: '100%' }}>
+      <div style={{ flex: 2, padding: '10px', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)' }}>
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3917.472888122254!2d76.92319257408951!3d10.927606756388924!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba85b823c4ca3d5%3A0x23416a992879b7c4!2sSri%20Krishna%20College%20Of%20Technology!5e0!3m2!1sen!2sin!4v1721919285291!5m2!1sen!2sin"
           width="100%"
@@ -44,7 +61,7 @@ const Room = () => {
           referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
       </div>
-      
+
       <div style={{ flex: 1, padding: '20px', borderLeft: '1px solid #ccc' }}>
         <img
           src={bikebg}
@@ -63,17 +80,7 @@ const Room = () => {
               onInputChange={(event, newInputValue) => setPickupValue(newInputValue)}
               onChange={handlePickupSelect}
               renderInput={(params) => (
-                <TextField {...params} sx={{ mb: 2 }} label="Enter Your Location" />
-              )}
-            />
-            <Autocomplete
-              freeSolo
-              options={destinationOptions.map((option) => option.label)}
-              inputValue={destinationValue}
-              onInputChange={(event, newInputValue) => setDestinationValue(newInputValue)}
-              onChange={handleDestinationSelect}
-              renderInput={(params) => (
-                <TextField {...params} sx={{ mb: 2 }} label="Enter Your Destination" />
+                <TextField {...params} sx={{ mb: 2 }} label="Enter City" />
               )}
             />
           </div>
@@ -114,6 +121,7 @@ const Room = () => {
               }}
               onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#45a049'}
               onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#4CAF50'}
+              onClick={handleSubmit}
             >
               Book Room
             </button>
@@ -125,4 +133,3 @@ const Room = () => {
 };
 
 export default Room;
-  

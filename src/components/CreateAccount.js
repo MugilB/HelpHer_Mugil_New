@@ -18,7 +18,7 @@ import axios from 'axios';  // Import axios for HTTP requests
 
 const defaultTheme = createTheme();
 
-export default function SignUpSide() {
+export default function CreateAccount() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -46,7 +46,7 @@ export default function SignUpSide() {
       });
       console.log('Response:', response.data);
       // Redirect to the sign-in page after a successful sign-up
-      navigate('/');
+      navigate('/login');
     } catch (error) {
       console.error('There was an error!', error);
     }
@@ -54,18 +54,21 @@ export default function SignUpSide() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Grid container component="main" sx={{
-            backgroundImage: 'url("https://img.freepik.com/premium-photo/woman-polo-shirt-stands-front-pink-background_911060-39512.jpg?w=826")',
-            backgroundColor: 'rgba(255, 255, 255, 0.5)',
-            backdropFilter: 'blur(10px)',
-            boxShadow: '200000 4px 6px rgba(0, 0, 0, 0.1)',            
-            backgroundSize: 'cover',
-            backgroundAttachment: 'fixed',
-            backgroundPosition: 'fixed',
-            border: '1px solid rgba(255, 255, 255, 0.18)',
-          }}>
+      <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
-        <Grid item xs={false} sm={4} md={7} />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: 'url("https://img.freepik.com/free-vector/tablet-login-concept-illustration_114360-7863.jpg?t=st=1722685998~exp=1722689598~hmac=b787c19f809c5b33f5fa9b82ce572c048627a3ebd0d16feb2204ad7eec4c29ad&w=740")',
+            backgroundSize: 'contain',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            height: '100vh',
+          }}
+        />
         <Grid
           item
           xs={12}
@@ -75,32 +78,36 @@ export default function SignUpSide() {
           elevation={6}
           square
           sx={{
-            backgroundColor: 'rgba(255, 255, 255, 0.2)',
-            backdropFilter: 'blur(100px)',
-            boxShadow: '1000000px 4px 6px rgba(0, 0, 0, 0.1)',            
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
             border: '1px solid rgba(255, 255, 255, 0.18)',
+            boxShadow: 'none',
+            height: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
-          <Box sx={{
-              my: 2,
+          <Box
+            sx={{
+              my: 8,
               mx: 4,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-            }}>
-            <img
+            }}
+          >
+            {/* <img
               src={logo}
               alt="Logo"
               style={{
                 borderRadius: '50%',
-                marginLeft: 'auto',
-                marginRight: 'auto',
+                marginBottom: '20px',
               }}
-              width="200"
-              height="200"
-            />
+              width="100"
+              height="100"
+            /> */}
             <Typography component="h1" variant="h5">
-              Sign Up
+              Create Account
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
@@ -165,45 +172,23 @@ export default function SignUpSide() {
                 Sign Up
               </Button>
               <Grid container>
-                <Grid item xs>
-                </Grid>
+                <Grid item xs />
                 <Grid item>
-                <Link component={RouterLink} to="/" variant="body2">
+                  <Link component={RouterLink} to="/login" variant="body2">
                     {"Already have an account? Sign In"}
                   </Link>
                 </Grid>
+                
               </Grid>
               <Box sx={{
-                  my: 1,
-                  mx: 4,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                }}>
-                <Typography>Continue with</Typography>
-                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1 }}>
-                  <img
-                    src={google}
-                    alt="Google Logo"
-                    style={{ margin: '0 10px', borderRadius: '50px' }}
-                    width="50"
-                    height="50"
-                  />
-                  <img
-                    src={facebook}
-                    alt="Facebook Logo"
-                    style={{ margin: '0 10px', borderRadius: '50px' }}
-                    width="50"
-                    height="50"
-                  />
-                  <img
-                    src={twitter}
-                    alt="Twitter Logo"
-                    style={{ margin: '0 10px', borderRadius: '50px' }}
-                    width="50"
-                    height="50"
-                  />
-                </Box>
+                my: 1,
+                mx: 4,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}>
+                {/* <Typography>Con tinue with</Typography> */}
+                
               </Box>
             </Box>
           </Box>

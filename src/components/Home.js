@@ -32,8 +32,8 @@ const Home = () => {
               </Typography>
               <Button color="inherit" component={RouterLink} to="/service">Services</Button>
               <Button color="inherit" component={RouterLink} to="/about">About</Button>
-              <Button color="inherit" component={RouterLink} to="/sos">SOS</Button>              
-              <Avatar sx={{ bgcolor: deepOrange[500] }} component={RouterLink} to="/profile">M</Avatar>
+              {/* <Button color="inherit" component={RouterLink} to="/sos">SOS</Button>               */}
+              <Avatar sx={{ bgcolor: deepOrange[500],}} style={{ textDecoration: 'none' }} component={RouterLink} to="/profile">M</Avatar>
             </Toolbar>
           </AppBar>
         </Box>
@@ -52,6 +52,7 @@ const Home = () => {
           <Typography style={{ fontSize: '40px', marginBottom: '24px' }}>
             Empower Woman Safety and Society
           </Typography>
+          
           <Button component={RouterLink} to="/service" variant="contained" endIcon={<SendIcon />} size="large" sx={{
             backdropFilter: 'blur(10px)',
             background: 'rgba(255, 255, 255, 0.1)',
@@ -61,6 +62,18 @@ const Home = () => {
             },
           }}>
             Ask Help
+          </Button>
+          <Button
+            variant="contained" component={RouterLink} to="/sos"
+            color="error"
+            style={{
+              backgroundColor: 'red',
+              color: 'white',
+              marginLeft: '10px',
+              padding: '10px',
+            }}
+          >
+            Emergency
           </Button>
         </Box>
       </Box>

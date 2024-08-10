@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { TextField, Autocomplete } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { TextField, Autocomplete, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const locations = [
     { label: 'Sri Krishna College of Technology', value: 'location1' },
@@ -12,8 +13,9 @@ const locations = [
 const Delievery = () => {
     const [pickupValue, setPickupValue] = useState('');
     const [destinationValue, setDestinationValue] = useState('');
-    const [pickupOptions, setPickupOptions] = useState(locations);
-    const [destinationOptions, setDestinationOptions] = useState(locations);
+    const [pickupOptions] = useState(locations);
+    const [destinationOptions] = useState(locations);
+    const navigate = useNavigate();
 
     const handlePickupSelect = (event, value) => {
         setPickupValue(value);
@@ -25,8 +27,27 @@ const Delievery = () => {
         console.log('Selected Destination Location:', value);
     };
 
+    const handleSubmit = async () => {
+        if (!pickupValue || !destinationValue) {
+            alert('Please fill in both the pickup and destination fields.');
+            return;
+        }
+
+        const deliveryRequest = {
+            pickupLocation: pickupValue,
+            destinationLocation: destinationValue,
+        };
+
+        try {
+            await axios.post('http://localhost:8080/api/delivery-requests/request', deliveryRequest);
+            navigate('/DelieveryC');
+        } catch (error) {
+            console.error('Error creating delivery request:', error);
+        }
+    };
+
     return (
-        <div style={{ display: 'flex', width: '100%', height: '600px' }}>
+        <div style={{ display: 'flex', width: '100%' }}>
             <div style={{ flex: 2, padding: '10px' }}>
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3917.472888122254!2d76.92319257408951!3d10.927606756388924!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba85b823c4ca3d5%3A0x23416a992879b7c4!2sSri%20Krishna%20College%20Of%20Technology!5e0!3m2!1sen!2sin!4v1721919285291!5m2!1sen!2sin"
@@ -71,23 +92,22 @@ const Delievery = () => {
                             )}
                         />
                     </div>
-                    <Link to="/DelieveryC" style={{ textDecoration: 'none' }}>
-                        <button
-                            type="button"
-                            style={{
-                                width: '100%',
-                                fontSize: '20px',
-                                padding: '15px',
-                                backgroundColor: '#4CAF50',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: '14px',
-                                cursor: 'pointer',
-                            }}
-                        >
-                            Pick It
-                        </button>
-                    </Link>
+                    <Button
+                        type="button"
+                        onClick={handleSubmit}
+                        style={{
+                            width: '100%',
+                            fontSize: '20px',
+                            
+                            backgroundColor: '#4CAF50',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '14px',
+                            cursor: 'pointer',
+                        }}
+                    >
+                        Pick It
+                    </Button>
                 </form>
             </div>
         </div>
