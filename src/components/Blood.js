@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextField, Autocomplete } from '@mui/material';
 import bikebg from '../logo/period.jpg';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
@@ -13,6 +13,7 @@ const locations = [
 const Blood = () => {
   const [inputValue, setInputValue] = useState('');
   const [location, setLocation] = useState('');
+  const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate(); // Initialize useNavigate
 
@@ -50,6 +51,14 @@ const Blood = () => {
     return { lat, lng };
   };
 
+  useEffect(() => {
+    const storedEmail = localStorage.getItem('username') || sessionStorage.getItem('username');
+    if (storedEmail) {
+        setEmail(storedEmail);
+    }
+    console.log('Fetched Email:', storedEmail); // Debugging
+  }, []);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     
@@ -58,15 +67,19 @@ const Blood = () => {
       return;
     }
 
+    const periodRequest = {
+      location:location,
+      email: email, // Ensure this matches the backend field
+      // Email is directly sent here
+    };
+
     try {
       const response = await fetch('http://localhost:8080/api/period-requests/request', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          location: location, // Send the location data to the backend
-        }),
+        body: JSON.stringify(periodRequest),
       });
 
       if (response.ok) {

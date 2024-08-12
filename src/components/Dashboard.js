@@ -26,7 +26,8 @@ import {
   Box,
   AppBar,
   Toolbar,
-  CssBaseline
+  CssBaseline,
+  Divider
 } from '@mui/material';
 import {
   Add,
@@ -36,7 +37,8 @@ import {
   DirectionsBike,
   Security,
   LocalHospital,
-  LocalShipping
+  LocalShipping,
+  ExitToApp
 } from '@mui/icons-material';
 import Statistics from './Statistics';
 
@@ -326,28 +328,56 @@ const Dashboard = () => {
         </Toolbar>
       </AppBar>
       <Drawer
-        variant="permanent"
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' }
-        }}
-      >
-        <Toolbar />
-        <Box sx={{ overflow: 'auto' }}>
-        <List>
-  {[
-    { view: 'dashboard', icon: <People />, text: 'Dashboard' },
-    { view: 'users', icon: <People />, text: 'Users' },
-    { view: 'bikeRides', icon: <DirectionsBike />, text: 'Bike Rides' },
-    { view: 'cyberCrime', icon: <Security />, text: 'Cyber Crime' },
-    { view: 'napkinRequests', icon: <LocalHospital />, text: 'Napkin Requests' },
-    { view: 'pickAndDrop', icon: <LocalShipping />, text: 'Pick and Drop' },
-  ].map((item) => (
+  variant="permanent"
+  sx={{
+    width: drawerWidth,
+    flexShrink: 0,
+    [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' }
+  }}
+>
+  <Toolbar />
+  <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <Box sx={{ overflow: 'auto', flexGrow: 1 }}>
+      <List>
+        {[
+          { view: 'dashboard', icon: <People />, text: 'Dashboard' },
+          { view: 'users', icon: <People />, text: 'Users' },
+          { view: 'bikeRides', icon: <DirectionsBike />, text: 'Bike Rides' },
+          { view: 'cyberCrime', icon: <Security />, text: 'Cyber Crime' },
+          { view: 'napkinRequests', icon: <LocalHospital />, text: 'Napkin Requests' },
+          { view: 'pickAndDrop', icon: <LocalShipping />, text: 'Pick and Drop' },
+        ].map((item) => (
+          <ListItem
+            key={item.view}
+            button
+            onClick={() => setSelectedView(item.view)}
+            sx={{
+              position: 'relative',
+              '&::after': {
+                content: '""',
+                display: 'block',
+                width: 0,
+                height: '2px',
+                background: '#ff66a3', // Match the underline with the text color
+                transition: 'width 0.3s ease',
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+              },
+              '&:hover::after': {
+                width: '80%',
+              },
+            }}
+          >
+            <ListItemIcon>{item.icon}</ListItemIcon>
+            <ListItemText primary={item.text} />
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+    <Divider />
     <ListItem
-      key={item.view}
       button
-      onClick={() => setSelectedView(item.view)}
       sx={{
         position: 'relative',
         '&::after': {
@@ -366,14 +396,12 @@ const Dashboard = () => {
         },
       }}
     >
-      <ListItemIcon>{item.icon}</ListItemIcon>
-      <ListItemText primary={item.text} />
+      <ListItemIcon><ExitToApp /></ListItemIcon>
+      <ListItemText primary="Logout" />
     </ListItem>
-  ))}
-</List>
+  </Box>
+</Drawer>
 
-        </Box>
-      </Drawer>
       <Box
         component="main"
         sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
@@ -443,8 +471,8 @@ const Dashboard = () => {
                 onChange={handleInputChange}
               />
             </>
-          )}
-          {dialogType === 'cyberCrime' && (
+                    )}
+          {dialogType === 'bikeRides' && (
             <>
               <TextField
                 autoFocus
@@ -474,23 +502,21 @@ const Dashboard = () => {
                 value={formData.phoneNumber}
                 onChange={handleInputChange}
               />
+            </>
+          )}
+          {dialogType === 'cyberCrime' && (
+            <>
               <TextField
+                autoFocus
                 margin="dense"
                 name="complaintText"
                 label="Complaint"
                 type="text"
                 fullWidth
-                multiline
-                rows={4}
                 value={formData.complaintText}
                 onChange={handleInputChange}
               />
-            </>
-          )}
-          {dialogType === 'napkinRequests' && (
-            <>
               <TextField
-                autoFocus
                 margin="dense"
                 name="address"
                 label="Address"
@@ -499,7 +525,12 @@ const Dashboard = () => {
                 value={formData.address}
                 onChange={handleInputChange}
               />
+            </>
+          )}
+          {dialogType === 'napkinRequests' && (
+            <>
               <TextField
+                autoFocus
                 margin="dense"
                 name="location"
                 label="Location"
@@ -514,11 +545,9 @@ const Dashboard = () => {
                 label="Request Date"
                 type="date"
                 fullWidth
-                InputLabelProps={{
-                  shrink: true,
-                }}
                 value={formData.requestDate}
                 onChange={handleInputChange}
+                InputLabelProps={{ shrink: true }}
               />
             </>
           )}
@@ -549,11 +578,9 @@ const Dashboard = () => {
                 label="Delivery Date"
                 type="date"
                 fullWidth
-                InputLabelProps={{
-                  shrink: true,
-                }}
                 value={formData.deliveryDate}
                 onChange={handleInputChange}
+                InputLabelProps={{ shrink: true }}
               />
             </>
           )}
