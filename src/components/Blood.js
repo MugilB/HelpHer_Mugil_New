@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, Autocomplete } from '@mui/material';
 import bikebg from '../logo/period.jpg';
+import emailjs from 'emailjs-com';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const locations = [
   { label: 'Sri Krishna College of Technology', value: 'location1' },
   { label: 'Gandhipuram', value: 'location2' },
   { label: 'Kovaipudur', value: 'location3' },
+  { label: 'Ukkadam', value: 'location4' },
   // Add more locations as needed
 ];
 
@@ -34,6 +36,20 @@ const Blood = () => {
     } else {
       alert('No address found');
     }
+  };
+
+  const sendConfirmationEmail = (email) => {
+    const templateParams = {
+      to_email: email,
+    };
+
+    emailjs.send('service_9vq7fh3', 'template_loxl7mn', templateParams, '5CxxHsjoz0dsW4OFC')
+      .then((response) => {
+        console.log('Confirmation email sent successfully!', response.status, response.text);
+      })
+      .catch((error) => {
+        console.error('Failed to send confirmation email:', error);
+      });
   };
 
   const screenCoordsToLatLng = (x, y) => {
@@ -83,6 +99,7 @@ const Blood = () => {
       });
 
       if (response.ok) {
+        sendConfirmationEmail(email);
         alert('Request sent successfully');
         navigate('/BloodC'); // Redirect to the next page
       } else {

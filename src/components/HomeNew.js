@@ -117,9 +117,7 @@ const SignupButton = styled(Button)`
   color: white;
   border-radius: 100px;
   
-  &:hover {
-    background-color: #ffccdf;
-  }
+  
 `;
 
 const LoginButton = styled(Button)`
@@ -400,9 +398,7 @@ const EmergencyButton = styled(Button)`
   font-size:25px;
   border-radius: 100px; /* Adjust radius as needed */
 
-  &:hover {
-    background-color: #ff9999; /* Lighter red on hover */
-  }
+  
 `;
 
 

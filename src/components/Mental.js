@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link as ScrollLink } from 'react-scroll';
-import { Box, Grid, AppBar, Avatar, Button, Toolbar, Typography, createTheme, ThemeProvider, Card, CardContent, CardMedia, IconButton } from '@mui/material';
+import { Box, Grid, Card, CardContent, CardMedia, IconButton, Typography, createTheme, ThemeProvider } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import { deepOrange } from '@mui/material/colors';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
 import './doctor.css';
@@ -40,7 +39,32 @@ const NavItems = styled.div`
   align-items: center;
 `;
 
-const NavItem = styled(ScrollLink)`
+const NavItem = styled(RouterLink)`
+  color: white;
+  padding: 15px 20px;
+  text-decoration: none;
+  position: relative;
+  cursor: pointer;
+
+  &::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: white;
+    transition: width 0.3s;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    box-sizing: border-box;
+  }
+
+  &:hover::after {
+    width: 100%;
+  }
+`;
+
+const ScrollNavItem = styled(ScrollLink)`
   color: white;
   padding: 15px 20px;
   text-decoration: none;
@@ -101,10 +125,10 @@ const Mental = () => {
         <Navbar>
           <NavBrand>HelpHer</NavBrand>
           <NavItems>
-            <NavItem to="home" smooth={true} duration={500}>Home</NavItem>
-            <NavItem to="services" smooth={true} duration={500} offset={-80}>Services</NavItem>
-            <NavItem to="about" smooth={true} duration={500} offset={-80}>About</NavItem>
-            <NavItem to="contact" smooth={true} duration={500} offset={-80}>Contact</NavItem>
+            <NavItem to="/services">Home</NavItem>
+            <ScrollNavItem to="/services" smooth={true} duration={500} offset={-80}>Services</ScrollNavItem>
+            
+            <NavItem to="/">Log Out</NavItem>
           </NavItems>
         </Navbar>
 

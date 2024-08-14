@@ -3,6 +3,7 @@ import { TextField, Button, Typography } from '@mui/material';
 import { VisuallyHiddenInput } from '@chakra-ui/react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import axios from 'axios';
+import emailjs from 'emailjs-com';
 import { useNavigate } from 'react-router-dom';
 
 const Cyber = () => {
@@ -19,6 +20,20 @@ const Cyber = () => {
     const selectedFile = event.target.files[0];
     setFileName(selectedFile ? selectedFile.name : ''); // Update file name state
     console.log(fileName);
+  };
+
+  const sendConfirmationEmail = (email) => {
+    const templateParams = {
+      to_email: email,
+    };
+
+    emailjs.send('service_9vq7fh3', 'template_loxl7mn', templateParams, '5CxxHsjoz0dsW4OFC')
+      .then((response) => {
+        console.log('Confirmation email sent successfully!', response.status, response.text);
+      })
+      .catch((error) => {
+        console.error('Failed to send confirmation email:', error);
+      });
   };
 
   const handleSubmit = async (event) => {
@@ -38,6 +53,7 @@ const Cyber = () => {
     try {
       const response = await axios.post('http://localhost:8080/api/complaints/file', complaintData);
       console.log(response.data);
+      sendConfirmationEmail(email);
       alert('Complaint filed successfully');
       navigate('/CyberC');
     } catch (error) {

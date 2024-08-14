@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link as ScrollLink } from 'react-scroll';
 import { Box, Grid, AppBar, Avatar, Button, Toolbar, Typography, createTheme, ThemeProvider, Card, CardContent, CardMedia, IconButton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { deepOrange } from '@mui/material/colors';
@@ -40,7 +39,7 @@ const NavItems = styled.div`
   align-items: center;
 `;
 
-const NavItem = styled(ScrollLink)`
+const NavItem = styled(RouterLink)`
   color: white;
   padding: 15px 20px;
   text-decoration: none;
@@ -101,10 +100,9 @@ const DoctorCard = () => {
         <Navbar>
           <NavBrand>HelpHer</NavBrand>
           <NavItems>
-            <NavItem to="home" smooth={true} duration={500}>Home</NavItem>
-            <NavItem to="services" smooth={true} duration={500} offset={-80}>Services</NavItem>
-            <NavItem to="about" smooth={true} duration={500} offset={-80}>About</NavItem>
-            <NavItem to="contact" smooth={true} duration={500} offset={-80}>Contact</NavItem>
+            <NavItem to="/services">Home</NavItem>
+            <NavItem to="/services">Services</NavItem>
+            <NavItem to="/login">Log Out</NavItem>
           </NavItems>
         </Navbar>
 

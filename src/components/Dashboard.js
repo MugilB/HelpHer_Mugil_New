@@ -67,6 +67,7 @@ const Dashboard = () => {
     requestDate: '',
     pickupLocation: '',
     dropLocation: '',
+    destinationLocation: '',
     deliveryDate: ''
   });
 
@@ -85,6 +86,10 @@ const Dashboard = () => {
     else if (selectedView === 'napkinRequests') {
       fetchNapkinRequests();
     } 
+    
+    else if (selectedView === 'pickAndDrop') {
+      fetchDeliveryRequests();
+    }
     
     else if (selectedView === 'pickAndDrop') {
       fetchDeliveryRequests();
@@ -151,6 +156,16 @@ const Dashboard = () => {
       });
   };
 
+  const fetchFeedbackRequests = () => {
+    axios.get('http://localhost:8080/api/feedback/getall')
+      .then(response => {
+        setDeliveryRequests(response.data);
+      })
+      .catch(error => {
+        console.error('There was an error fetching the delivery requests!', error);
+      });
+  };
+
   const handleClickOpen = (type, item) => {
     setDialogType(type);
     setCurrentItem(item);
@@ -188,6 +203,24 @@ const Dashboard = () => {
           });
       }
     } else if (dialogType === 'bikeRides') {
+      if (currentItem) {
+        axios.put(`http://localhost:8080/api/ride-requests/${currentItem.id}`, formData)
+          .then(() => {
+            fetchBikeRides(); // Re-fetch users after update
+          })
+          .catch(error => {
+            console.error('There was an error updating the user!', error);
+          });
+      } else {
+        axios.post('http://localhost:8080/api/ride-requests/request', formData)
+          .then(() => {
+            fetchBikeRides(); // Re-fetch users after addition
+          })
+          .catch(error => {
+            console.error('There was an error creating the user!', error);
+          });
+      }
+      
       // Handle bike rides similarly if needed
     } else if (dialogType === 'cyberCrime') {
       if (currentItem) {
@@ -257,6 +290,13 @@ const Dashboard = () => {
           console.error('There was an error deleting the user!', error);
         });
     } else if (type === 'bikeRides') {
+      axios.delete(`http://localhost:8080/api/ride-requests/${id}`)
+        .then(() => {
+          fetchBikeRides(); // Re-fetch complaints after deletion
+        })
+        .catch(error => {
+          console.error('There was an error deleting the complaint!', error);
+        });
       // Handle bike rides similarly if needed
     } else if (type === 'cyberCrime') {
       axios.delete(`http://localhost:8080/api/complaints/${id}`)
@@ -340,7 +380,7 @@ const Dashboard = () => {
     <Box sx={{ overflow: 'auto', flexGrow: 1 }}>
       <List>
         {[
-          { view: 'dashboard', icon: <People />, text: 'Dashboard' },
+          // { view: 'dashboard', icon: <People />, text: 'Dashboard' },
           { view: 'users', icon: <People />, text: 'Users' },
           { view: 'bikeRides', icon: <DirectionsBike />, text: 'Bike Rides' },
           { view: 'cyberCrime', icon: <Security />, text: 'Cyber Crime' },
@@ -483,16 +523,7 @@ const Dashboard = () => {
                 fullWidth
                 value={formData.name}
                 onChange={handleInputChange}
-              />
-              <TextField
-                margin="dense"
-                name="age"
-                label="Age"
-                type="number"
-                fullWidth
-                value={formData.age}
-                onChange={handleInputChange}
-              />
+              />              
               <TextField
                 margin="dense"
                 name="phoneNumber"
@@ -502,10 +533,85 @@ const Dashboard = () => {
                 value={formData.phoneNumber}
                 onChange={handleInputChange}
               />
+              <TextField
+                margin="dense"
+                name="email"
+                label="Email"
+                type="text"
+                fullWidth
+                value={formData.email}
+                onChange={handleInputChange}
+              />
+              <TextField
+                margin="dense"
+                name="pickupLocation"
+                label="Pick up Point"
+                type="text"
+                fullWidth
+                value={formData.pickupLocation}
+                onChange={handleInputChange}
+              />
+              <TextField
+                margin="dense"
+                name="destinationLocation"
+                label="Drop Point"
+                type="text"
+                fullWidth
+                value={formData.destinationLocation}
+                onChange={handleInputChange}
+              />
+              <TextField
+                margin="dense"
+                name="requestDate"
+                label="Request Date"
+                type="date"
+                fullWidth
+                value={formData.requestDate}
+                onChange={handleInputChange}
+                InputLabelProps={{ shrink: true }}
+              />
             </>
           )}
           {dialogType === 'cyberCrime' && (
             <>
+            <TextField
+                autoFocus
+                margin="dense"
+                name="name"
+                label="Name"
+                type="text"
+                fullWidth
+                value={formData.name}
+                onChange={handleInputChange}
+              />              
+            <TextField
+                autoFocus
+                margin="dense"
+                name="age"
+                label="Age"
+                type="text"
+                fullWidth
+                value={formData.age}
+                onChange={handleInputChange}
+              />              
+              <TextField
+                margin="dense"
+                name="phoneNumber"
+                label="Phone Number"
+                type="text"
+                fullWidth
+                value={formData.phoneNumber}
+                onChange={handleInputChange}
+              />
+              <TextField
+                margin="dense"
+                name="email"
+                label="Email"
+                type="text"
+                fullWidth
+                value={formData.email}
+                onChange={handleInputChange}
+              />
               <TextField
                 autoFocus
                 margin="dense"
@@ -518,17 +624,47 @@ const Dashboard = () => {
               />
               <TextField
                 margin="dense"
-                name="address"
-                label="Address"
-                type="text"
+                name="createdDate"
+                label="Request Date"
+                type="date"
                 fullWidth
-                value={formData.address}
+                value={formData.requestDate}
                 onChange={handleInputChange}
+                InputLabelProps={{ shrink: true }}
               />
+              
             </>
           )}
           {dialogType === 'napkinRequests' && (
             <>
+            <TextField
+                autoFocus
+                margin="dense"
+                name="name"
+                label="Name"
+                type="text"
+                fullWidth
+                value={formData.name}
+                onChange={handleInputChange}
+              />              
+              <TextField
+                margin="dense"
+                name="phoneNumber"
+                label="Phone Number"
+                type="text"
+                fullWidth
+                value={formData.phoneNumber}
+                onChange={handleInputChange}
+              />
+              <TextField
+                margin="dense"
+                name="email"
+                label="Email"
+                type="text"
+                fullWidth
+                value={formData.email}
+                onChange={handleInputChange}
+              />
               <TextField
                 autoFocus
                 margin="dense"
@@ -553,6 +689,62 @@ const Dashboard = () => {
           )}
           {dialogType === 'pickAndDrop' && (
             <>
+            <TextField
+                autoFocus
+                margin="dense"
+                name="senderName"
+                label="Sender Name"
+                type="text"
+                fullWidth
+                value={formData.senderName}
+                onChange={handleInputChange}
+              />              
+              <TextField
+                margin="dense"
+                name="senderPhone"
+                label="Sender Phone Number"
+                type="text"
+                fullWidth
+                value={formData.senderPhone}
+                onChange={handleInputChange}
+              />
+              <TextField
+                margin="dense"
+                name="email"
+                label="Sender Email"
+                type="text"
+                fullWidth
+                value={formData.email}
+                onChange={handleInputChange}
+              />
+            <TextField
+                autoFocus
+                margin="dense"
+                name="receiverName"
+                label="Receiver Name"
+                type="text"
+                fullWidth
+                value={formData.receiverName}
+                onChange={handleInputChange}
+              />              
+              <TextField
+                margin="dense"
+                name="receiverPhone"
+                label="Receiver Phone Number"
+                type="text"
+                fullWidth
+                value={formData.receiverPhone}
+                onChange={handleInputChange}
+              />
+              <TextField
+                margin="dense"
+                name="receiverEmail"
+                label="Receiver Email"
+                type="text"
+                fullWidth
+                value={formData.receiverEmail}
+                onChange={handleInputChange}
+              />
               <TextField
                 autoFocus
                 margin="dense"
@@ -564,24 +756,16 @@ const Dashboard = () => {
                 onChange={handleInputChange}
               />
               <TextField
+                autoFocus
                 margin="dense"
                 name="dropLocation"
                 label="Drop Location"
                 type="text"
                 fullWidth
-                value={formData.dropLocation}
+                value={formData.destinationLocation}
                 onChange={handleInputChange}
               />
-              <TextField
-                margin="dense"
-                name="deliveryDate"
-                label="Delivery Date"
-                type="date"
-                fullWidth
-                value={formData.deliveryDate}
-                onChange={handleInputChange}
-                InputLabelProps={{ shrink: true }}
-              />
+              
             </>
           )}
         </DialogContent>
