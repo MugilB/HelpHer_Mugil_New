@@ -33,6 +33,7 @@
     "emailjs-com": "^3.2.0",
     "framer-motion": "^11.3.19",
     "google-maps-react": "^2.0.6",
+    "helpher": "file:",
     "primereact": "^10.7.0",
     "react": "^18.3.1",
     "react-chartjs-2": "^5.2.0",
