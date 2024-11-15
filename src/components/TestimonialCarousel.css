@@ -1,0 +1,134 @@
+*,
+*:after,
+*:before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+    cursor: default;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: #fff;
+  overflow: hidden;
+}
+
+.testim {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.testim .wrap {
+  position: relative;
+  width: 100%;
+  max-width: 1020px;
+  padding: 40px 20px;
+  margin: auto;
+}
+
+.testim .arrow {
+  display: block;
+  position: absolute;
+  color: #333;
+  cursor: pointer;
+  font-size: 2em;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all .3s ease-in-out;    
+  padding: 5px;
+  z-index: 22222222;
+}
+
+.testim .arrow:hover {
+  color: green;
+}
+
+.testim .arrow.left {
+  left: 70px;
+}
+
+.testim .arrow.right {
+  right: 70px;
+}
+
+.testim .dots {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  bottom: 60px;
+  display: block;
+  z-index: 3333;
+  height: 12px;
+}
+
+.testim .dots .dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid green;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: all .5s ease-in-out;
+}
+
+.testim .dots .dot.active {
+  background: green;
+  border-color: green;
+}
+
+.testim .cont {
+  position: relative;
+  overflow: hidden;
+}
+
+.testim .cont .testimonial-slide {
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0 0 70px 0;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.testim .cont .testimonial-slide.active {
+  opacity: 1;
+}
+
+.testim .cont .testimonial-slide .img img {
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  border-radius: 50%;
+}
+
+.testim .cont .testimonial-slide h2 {
+  color: green;
+  font-size: 1em;
+  margin: 15px 0;
+}
+
+.testim .cont .testimonial-slide p {
+  font-size: 1.15em;
+  color: #333;
+  width: 70%;
+  margin: auto;
+}
+
+.testim .cont .testimonial-slide.active .img img {
+  animation: testim-show .5s ease-in-out forwards;
+}
+
+@keyframes testim-show {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TextField, Autocomplete, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import emailjs from 'emailjs-com';
 
 const locations = [
     { label: 'Sri Krishna College of Technology', value: 'location1' },
@@ -34,6 +35,20 @@ const Delievery = () => {
         console.log('Selected Pickup Location:', value);
     };
 
+    const sendConfirmationEmail = (email) => {
+        const templateParams = {
+          to_email: email,
+        };
+    
+        emailjs.send('service_9vq7fh3', 'template_loxl7mn', templateParams, '5CxxHsjoz0dsW4OFC')
+          .then((response) => {
+            console.log('Confirmation email sent successfully!', response.status, response.text);
+          })
+          .catch((error) => {
+            console.error('Failed to send confirmation email:', error);
+          });
+      };
+    
     const handleDestinationSelect = (event, value) => {
         setDestinationValue(value);
         console.log('Selected Destination Location:', value);
@@ -60,6 +75,7 @@ const Delievery = () => {
             const response = await axios.post('http://localhost:8080/api/delivery-requests/request', deliveryRequest);
 
             if (response.status === 200) {
+                sendConfirmationEmail(email);
                 alert('Ride request sent successfully');
                 navigate('/DelieveryC');
             } else {

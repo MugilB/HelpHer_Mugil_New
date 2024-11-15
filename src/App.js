@@ -5,7 +5,7 @@ import SignInSide from './components/SignInSide';
 import SignUpSide from './components/SignUpSide';
 import Home from './components/Home';
 import Services from './components/Services';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';import { GoogleOAuthProvider } from '@react-oauth/google';
 import Map from './components/Map';
 import MyApp from './components/MyApp';
 import MapContainer from './components/MapContainer';
@@ -33,9 +33,12 @@ import AuthGuard from './components/AuthGuard';
 import HomeNew from './components/HomeNew';
 import Login from './components/Login';
 import CreateAccount from './components/CreateAccount';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Helps from './components/Helps';
 import GoogleMaps from './components/GoogleMaps';
 import Maps from './components/Maps';
+import Pricing from './components/Pricing';
+
 
 
 const doctor = {
@@ -82,10 +85,12 @@ function App() {
     
     // <SignInSide/>
     // <Map/>
-    
+    // <Pricing/>
+    <GoogleOAuthProvider clientId="659905847456-2dm5ufganu6iordsm3kvd5fpfc3c3m8r.apps.googleusercontent.com">
     <Routes>
-      <Route path="/" element={<HomeNew/>}/>        
-      <Route path="/dashboard" element={<Dashboard />} />      
+      <Route path="/" element={<HomeNew/>}/>
+      <Route path="/dashboard" element={
+        <Dashboard/>} />
       <Route path="/emergency" element={<SosC/>}/>
       <Route path="/login" element={<Login/>}/>        
       <Route path="/signup" element={<CreateAccount/>}/>     
@@ -104,6 +109,8 @@ function App() {
       <Route path="/CyberC" element={<CyberC/>}/>
       <Route path="/fitness" element={<FitnessTips/>}/>    
     </Routes>
+    </GoogleOAuthProvider>
+    //<Dashboard/>
     //<Maps/>
     //<GoogleMaps/>
     //<Helps/>

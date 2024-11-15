@@ -1,0 +1,89 @@
+/* Container for the pricing section */
+.pricing-container {
+  text-align: center;
+}
+
+/* Styling for the toggle buttons */
+.toggle-buttons {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center; /* Align buttons horizontally */
+  gap: 1.5rem;
+}
+
+.toggle-buttons button {
+  background-color: transparent;
+  border: 1px solid #ff66a3;
+  color: #ff66a3;
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin: 0;
+}
+
+/* Active button styling */
+.toggle-buttons .active {
+  background-color: #ff66a3;
+  color: white;
+}
+
+/* Container for the pricing plans */
+.plans {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2.5rem;
+  flex-wrap: wrap; /* Ensure responsiveness */
+}
+
+/* Individual plan card */
+.plan {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #ddd;
+  padding: 2.5rem;
+  width: 300px;
+  border-radius: 8px;
+  background-color: white;
+  height: 450px;
+  margin-bottom: 2rem; /* Add space between cards */
+}
+
+/* Premium plan styling */
+.plan.premium {
+  background-color: #e0d5e8;
+}
+
+/* Price text */
+.price {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0.75rem 0;
+}
+
+/* Styling for list of plan features */
+ul {
+  list-style: none;
+  padding: 0;
+  flex-grow: 1;
+  margin-bottom: 1.5rem;
+}
+
+li {
+  text-align: left;
+  padding: 0.75rem 0;
+  font-size: 1.1rem;
+}
+
+/* Order button styling */
+.order-button {
+  background-color: #ff66a3;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  align-self: center; /* Ensure button is centered */
+}

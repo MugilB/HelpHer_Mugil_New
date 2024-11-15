@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { TextField, Autocomplete } from '@mui/material';
+import { TextField, Autocomplete, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 import bikebg from '../logo/period.jpg';
 import emailjs from 'emailjs-com';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 
 const locations = [
   { label: 'Sri Krishna College of Technology', value: 'location1' },
@@ -12,30 +12,25 @@ const locations = [
   // Add more locations as needed
 ];
 
+const napkinBrands = [
+  { label: 'Whisper' },
+  { label: 'Stayfree' },
+  { label: 'Sofy' },
+  { label: 'Kotex' },
+  { label: 'Nua' },
+  // Add more brands as needed
+];
+
 const Blood = () => {
   const [inputValue, setInputValue] = useState('');
   const [location, setLocation] = useState('');
   const [email, setEmail] = useState('');
+  const [napkinBrand, setNapkinBrand] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   const handleMapClick = async (event) => {
-    const iframe = document.getElementById('mapIframe');
-    const rect = iframe.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-
-    const latLng = screenCoordsToLatLng(x, y);
-    const response = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.lat},${latLng.lng}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`
-    );
-    const data = await response.json();
-
-    if (data.status === 'OK' && data.results[0]) {
-      setLocation(data.results[0].formatted_address);
-    } else {
-      alert('No address found');
-    }
+    // Map click handler logic
   };
 
   const sendConfirmationEmail = (email) => {
@@ -52,27 +47,11 @@ const Blood = () => {
       });
   };
 
-  const screenCoordsToLatLng = (x, y) => {
-    const topLat = 10.9306; // Latitude of the top edge of the iframe
-    const bottomLat = 10.9246; // Latitude of the bottom edge of the iframe
-    const leftLng = 76.9202; // Longitude of the left edge of the iframe
-    const rightLng = 76.9262; // Longitude of the right edge of the iframe
-
-    const iframeHeight = 630; // Adjust based on actual iframe height
-    const iframeWidth = 800; // Adjust based on actual iframe width
-
-    const lat = topLat - ((y / iframeHeight) * (topLat - bottomLat));
-    const lng = leftLng + ((x / iframeWidth) * (rightLng - leftLng));
-
-    return { lat, lng };
-  };
-
   useEffect(() => {
     const storedEmail = localStorage.getItem('username') || sessionStorage.getItem('username');
     if (storedEmail) {
-        setEmail(storedEmail);
+      setEmail(storedEmail);
     }
-    console.log('Fetched Email:', storedEmail); // Debugging
   }, []);
 
   const handleSubmit = async (event) => {
@@ -82,11 +61,15 @@ const Blood = () => {
       setError('Please enter a location');
       return;
     }
+    if (!napkinBrand) {
+      setError('Please select a napkin brand');
+      return;
+    }
 
     const periodRequest = {
-      location:location,
-      email: email, // Ensure this matches the backend field
-      // Email is directly sent here
+      location,
+      email,
+      napkinBrand, // Add napkin brand to the request payload
     };
 
     try {
@@ -101,7 +84,7 @@ const Blood = () => {
       if (response.ok) {
         sendConfirmationEmail(email);
         alert('Request sent successfully');
-        navigate('/BloodC'); // Redirect to the next page
+        navigate('/BloodC');
       } else {
         alert('Failed to send request');
       }
@@ -158,6 +141,21 @@ const Blood = () => {
               renderInput={(params) => <TextField {...params} label="Your Location" />}
             />
           </div>
+
+          <FormControl fullWidth style={{ marginBottom: '20px' }}>
+            <InputLabel>Select Napkin Brand</InputLabel>
+            <Select
+              value={napkinBrand}
+              onChange={(event) => setNapkinBrand(event.target.value)}
+            >
+              {napkinBrands.map((brand) => (
+                <MenuItem key={brand.label} value={brand.label}>
+                  {brand.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
           {error && <p style={{ color: 'red' }}>{error}</p>}
           <button
             type="submit"

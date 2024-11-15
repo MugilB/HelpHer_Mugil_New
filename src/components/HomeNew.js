@@ -7,6 +7,10 @@ import { Link } from 'react-scroll';
 import { Margin } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 import { ReactTyped } from 'react-typed';
+import Pricing from './Pricing';
+import StackedCards from './StackedCards';
+import Testimonials from './Testimonials';
+import TestimonialCarousel from './TestimonialCarousel';
 
 // Register Chart.js components
 // ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
@@ -465,24 +469,38 @@ const HomeNew = () => {
         loop={false}
       />
     </Typography>
-          <p>Your one-stop solution for female-centric services.</p>
+    <p 
+  style={{
+    fontSize: '1.3em', 
+    fontWeight: 'bold', fontFamily:'serif',      
+     
+    letterSpacing: '1px', 
+    textShadow: '2px 2px 5px rgba(0, 0, 0, 0.1)'
+  }}
+>
+  Get Sanitation Right to Your Doorstep
+</p>
+
           <div>
-            <SignupButton href="/signup" style={{fontSize:'25px'}}>Get Started</SignupButton>
-            <EmergencyButton href="/emergency">Emergency</EmergencyButton>
+            <SignupButton href="/signup" style={{fontSize:'25px'}}>Order Now</SignupButton>
+            {/* <EmergencyButton href="/emergency">Emergency</EmergencyButton> */}
           </div>
         </HeroText>
         <HeroImage />
       </HeroSection>
-      <ServicesSection id="services">
-  <h1 style={{fontSize:'40px'}}>Our Services</h1>
+
+      <div id="services">
+      <StackedCards/>
+      </div>
+  {/* <h1 style={{fontSize:'40px'}}>Our Services</h1>
   <Carousel slidesToShow={1.5}>
-    <ServiceCard>
-      <img src="https://img.freepik.com/premium-vector/woman-with-pain-stomach-semi-flat-color-vector-character_151150-11089.jpg?w=740" alt="Napkin Delivery" />
+  <ServiceCard>
+  <img src="https://img.freepik.com/premium-vector/woman-with-pain-stomach-semi-flat-color-vector-character_151150-11089.jpg?w=740" alt="Napkin Delivery" />
       <h3>Napkin Delivery</h3>
       <p>Reliable and timely napkin delivery service, designed specifically for women&apos;s needs.</p>
-    </ServiceCard>
+      </ServiceCard>
     <ServiceCard>
-      <img src="https://img.freepik.com/free-vector/women-ride_1284-18660.jpg?t=st=1722670794~exp=1722674394~hmac=1a7550143b1052f53f2633f113dd1a661ee76d83e3e2dc40909ad58bc257e24b&w=740" alt="Female Bike Ride" />
+    <img src="https://img.freepik.com/free-vector/women-ride_1284-18660.jpg?t=st=1722670794~exp=1722674394~hmac=1a7550143b1052f53f2633f113dd1a661ee76d83e3e2dc40909ad58bc257e24b&w=740" alt="Female Bike Ride" />
       <h3>Female Bike Ride</h3>
       <p>Safe and secure bike rides conducted by female drivers for a comfortable journey.</p>
     </ServiceCard>
@@ -490,41 +508,46 @@ const HomeNew = () => {
       <img src="https://img.freepik.com/free-vector/safe-food-delivery-concept_23-2148567976.jpg?t=st=1722670724~exp=1722674324~hmac=1cd778b35e132c9af147cc56fd2698acf6b6266c30250b8445aac70e0c7ae552&w=740" alt="Pick and Drop" />
       <h3>Pick and Drop</h3>
       <p>Convenient pick-up and drop-off service for various destinations.</p>
-    </ServiceCard>
-    <ServiceCard>
+      </ServiceCard>
+      <ServiceCard>
       <img src="https://img.freepik.com/premium-vector/woman-reading-bed-bedtime-leisure-color-illustration-isolated-white-background_81894-12503.jpg?ga=GA1.1.1628848752.1721882282&semt=ais_hybrid" alt="Room Booking" />
       <h3>Room Booking</h3>
       <p>Easy and quick room booking service for safe and secure accommodations.</p>
-    </ServiceCard>
+      </ServiceCard>
     <ServiceCard>
       <img src="https://img.freepik.com/free-vector/flat-childbirth-scenes-collection_23-2149213582.jpg?t=st=1722671126~exp=1722674726~hmac=734afa3db8e7bb4dfdad62f37e22cfc4d383a40b92c584255e0fda1b5de13475&w=740" alt="Gynecologist Consultations" />
       <h3>Gynecologist Consultations</h3>
       <p>Professional consultations with experienced gynecologists for all health concerns.</p>
+      </ServiceCard>
+    <ServiceCard>
+    <img src="https://img.freepik.com/premium-vector/people-working-concept-illustration_958800-111462.jpg?w=740" alt="Mental Counseling" />
+    <h3>Mental Counseling</h3>
+    <p>Confidential mental health counseling sessions with qualified professionals.</p>
     </ServiceCard>
     <ServiceCard>
-      <img src="https://img.freepik.com/premium-vector/people-working-concept-illustration_958800-111462.jpg?w=740" alt="Mental Counseling" />
-      <h3>Mental Counseling</h3>
-      <p>Confidential mental health counseling sessions with qualified professionals.</p>
-    </ServiceCard>
-    <ServiceCard>
-      <img src="https://img.freepik.com/free-vector/full-energy-tired-exhausted-woman-office-worker_88138-800.jpg?t=st=1722671204~exp=1722674804~hmac=6059667fe636438c77f585a5a9179cba3a64734c1778acac8032e6313fc5dfb8&w=740" alt="Cyber Crime Reporting" />
-      <h3>Cyber Crime Reporting</h3>
-      <p>Efficient reporting and support for any cybercrime incidents you might face.</p>
+    <img src="https://img.freepik.com/free-vector/full-energy-tired-exhausted-woman-office-worker_88138-800.jpg?t=st=1722671204~exp=1722674804~hmac=6059667fe636438c77f585a5a9179cba3a64734c1778acac8032e6313fc5dfb8&w=740" alt="Cyber Crime Reporting" />
+    <h3>Cyber Crime Reporting</h3>
+    <p>Efficient reporting and support for any cybercrime incidents you might face.</p>
     </ServiceCard>
     <ServiceCard>
       <img src="https://img.freepik.com/free-vector/training-home-concept-with-weights_23-2148487929.jpg?t=st=1722671303~exp=1722674903~hmac=ff705731f0a05ba33f0c4f8ab2c69865927f04f56d3f23831d506d11b5f14fd1&w=740" alt="Fitness Services" />
       <h3>Fitness Services</h3>
       <p>Personalized fitness programs and sessions to help you stay healthy and fit.</p>
-    </ServiceCard>
-  </Carousel>
-</ServicesSection>
+      </ServiceCard>
+      </Carousel> */}
+
 
 
       {/* <GraphSection>
         <h2>Usage Statistics</h2>
         <Line data={chartData} />
       </GraphSection> */}
+      
 
+      
+
+      {/* <Pricing/> */}
+        <Testimonials/>
 <InfoSection id="chart">
           {/* <TextSection> */}
             
@@ -547,7 +570,10 @@ const HomeNew = () => {
           </ResponsiveContainer>
         </InfoSection>
 
-      <ReviewSection>
+{/* <Testimonials/> */}
+        
+
+      {/* <ReviewSection>
         <h2>What Our Users Say</h2>
         <Carousel slidesToShow={2}>
           <ReviewCard>
@@ -591,9 +617,9 @@ const HomeNew = () => {
             </div>
           </ReviewCard>
         </Carousel>
-      </ReviewSection>
+      </ReviewSection> */}
       
-      <AboutSection id="about">
+      {/* <AboutSection id="about">
     <h1>About Us</h1>
     <p>
       HelpHer is a real-life female support network dedicated to providing high-quality services for women. Our main features include:
@@ -609,7 +635,7 @@ const HomeNew = () => {
       <li>Fitness services</li>
     </ul>
     <p>We ensure safety, reliability, and convenience in every aspect.</p>
-  </AboutSection>
+  </AboutSection> */}
 
   <div style={{backgroundColor:'red',color:'white',textAlign:'center',padding:'10px'}}>
     <h1 style={{textAlign:'center'}}>Disclaimer</h1>

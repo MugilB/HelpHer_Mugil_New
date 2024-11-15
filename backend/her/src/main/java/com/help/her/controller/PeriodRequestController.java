@@ -50,20 +50,21 @@ public class PeriodRequestController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updatePeriodRequest(@PathVariable Long id, @RequestBody PeriodRequest periodRequest) {
-        try {
-            Optional<PeriodRequest> existingRequest = periodRequestService.getPeriodRequestById(id);
-            if (existingRequest.isPresent()) {
-                periodRequest.setId(id);
-                PeriodRequest updatedRequest = periodRequestService.savePeriodRequest(periodRequest);
-                return ResponseEntity.ok(updatedRequest);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+public ResponseEntity<?> updatePeriodRequest(@PathVariable Long id, @RequestBody PeriodRequest periodRequest) {
+    try {
+        Optional<PeriodRequest> existingRequest = periodRequestService.getPeriodRequestById(id);
+        if (existingRequest.isPresent()) {
+            periodRequest.setId(id);
+            PeriodRequest updatedRequest = periodRequestService.updatePeriodRequest(id, periodRequest);
+            return ResponseEntity.ok(updatedRequest);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    } catch (Exception e) {
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
+}
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePeriodRequest(@PathVariable Long id) {

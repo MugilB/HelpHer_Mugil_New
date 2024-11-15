@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TextField, Autocomplete, Button } from '@mui/material';
 import bikebg from '../logo/bikebg.jpg';
 import { useNavigate } from 'react-router-dom';
+import emailjs from 'emailjs-com';
 
 const Map = () => {
   const locations = [
@@ -30,6 +31,21 @@ const Map = () => {
     setPickupValue(value);
     console.log('Selected Pickup Location:', value);
   };
+  
+  const sendConfirmationEmail = (email) => {
+    const templateParams = {
+      to_email: email,
+    };
+
+    emailjs.send('service_9vq7fh3', 'template_loxl7mn', templateParams, '5CxxHsjoz0dsW4OFC')
+      .then((response) => {
+        console.log('Confirmation email sent successfully!', response.status, response.text);
+      })
+      .catch((error) => {
+        console.error('Failed to send confirmation email:', error);
+      });
+  };
+
 
   const handleDestinationSelect = (event, value) => {
     setDestinationValue(value);
@@ -60,7 +76,10 @@ const Map = () => {
         body: JSON.stringify(rideRequest),
       });
 
+      
+
       if (response.ok) {
+        sendConfirmationEmail(email);
         alert('Ride request sent successfully');
         navigate('/MapC');
       } else {
@@ -80,7 +99,7 @@ const Map = () => {
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3917.472888122254!2d76.92319257408951!3d10.927606756388924!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba85b823c4ca3d5%3A0x23416a992879b7c4!2sSri%20Krishna%20College%20Of%20Technology!5e0!3m2!1sen!2sin!4v1721919285291!5m2!1sen!2sin"
           width="100%"
-          height="100%"
+          height="100vh"
           style={{ border: 0 }}
           allowFullScreen
           loading="lazy"

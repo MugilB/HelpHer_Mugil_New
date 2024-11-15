@@ -1,0 +1,19 @@
+.dashboardAddButton {
+    background-color: #ff66a3;
+  }
+  
+  .dashboardAddButton:hover {
+    background-color: #ff66a3;
+  }
+  
+  .dashboardPaperContainer {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    border: 2px dashed #ff66a3;
+  }
+  
+  .dashboardTableContainer {
+    margin-top: 10px;
+  }
+  

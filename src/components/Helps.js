@@ -13,6 +13,7 @@ import gym from '../logo/fitness.png';
 import talk from '../logo/talk.png';
 import emailjs from 'emailjs-com';
 import { useNavigate } from 'react-router-dom';
+import Pricing from './Pricing';
 
 // Styled components
 const Navbar = styled.nav`
@@ -274,12 +275,12 @@ const Helps = () => {
               Our HelpHer team provides Sanitary Napkins to women at their location during critical periods.
             </Typography>
             <RouterLink to="/menstruals" style={{ textDecoration: 'none' }}>
-              <SignupButton style={{ fontSize: '20px', marginTop: '10px' }}>Ask Help</SignupButton>
+              <SignupButton style={{ fontSize: '20px', marginTop: '10px' }}>Order Now</SignupButton>
             </RouterLink>
           </TextSection>
           <SectionImage src="https://img.freepik.com/free-vector/breast-cancer-awareness-concept-illustration_23-2148635265.jpg?t=st=1722708140~exp=1722711740~hmac=a184562c6d47ad1955be7adbb63590ad69c8f69505451a6a01870bf571c93fe5&w=740" alt="HelpHer Services" />
         </InfoSection>
-
+        
         <CardContainer id="services">
           <Grid style={{ textAlign: 'center', fontSize: '35px' }}>Other Services</Grid>
           <Grid container spacing={2}>

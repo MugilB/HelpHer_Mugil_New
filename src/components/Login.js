@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,8 +12,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { styled } from '@mui/system';
 import axios from 'axios';
 import google from './google.png';
-import aadhar from './aadhar.png'; // Add Aadhar logo
+import aadhar from './aadhar.png';
 import { Link as RouterLink } from 'react-router-dom';
+import { useGoogleLogin } from '@react-oauth/google';
 
 const defaultTheme = createTheme();
 
@@ -48,10 +48,9 @@ function Copyright(props) {
 
 export default function Login() {
   const navigate = useNavigate();
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe,setRememberMe] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleLogin = async () => {
     const payload = {
@@ -74,7 +73,7 @@ export default function Login() {
         }
 
         if (response.data.role === 'admin') {
-          navigate('/dashboard'); 
+          navigate('/dashboard');
         } else {
           navigate('/services');
         }
@@ -92,16 +91,27 @@ export default function Login() {
     handleLogin();
   };
 
+  const googleLogin = useGoogleLogin({
+    onSuccess: (credentialResponse) => {
+      console.log('Google login successful', credentialResponse);
+      navigate('/services');
+    },
+    onError: () => {
+      alert('Google login failed. Please try again.');
+    },
+  });
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
+        <CssBaseline />
         <Grid
           item
           xs={false}
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url("https://img.freepik.com/free-vector/tablet-login-concept-illustration_114360-7863.jpg?t=st=1722685998~exp=1722689598~hmac=b787c19f809c5b33f5fa9b82ce572c048627a3ebd0d16feb2204ad7eec4c29ad&w=740")',
+            backgroundImage: 'url("https://img.freepik.com/free-vector/tablet-login-concept-illustration_114360-7863.jpg")',
             backgroundSize: 'contain',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
@@ -171,9 +181,7 @@ export default function Login() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link variant="body2">
-                    Forgot password?
-                  </Link>
+                  <Link variant="body2">Forgot password?</Link>
                 </Grid>
                 <Grid item>
                   <Link component={RouterLink} to="/signup" variant="body2">
@@ -182,12 +190,14 @@ export default function Login() {
                 </Grid>
               </Grid>
               <div style={{ textAlign: 'center', fontSize: '20px' }}>or</div>
-              <Box sx={{
-                my: 2,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}>
+              <Box
+                sx={{
+                  my: 2,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
                 <Button
                   variant="outlined"
                   sx={{
@@ -197,10 +207,10 @@ export default function Login() {
                     justifyContent: 'center',
                     mb: 2,
                     borderRadius: '30px',
-                    borderColor: 'black', // Light border color
-                    color: 'black', // Text color
+                    borderColor: 'black',
+                    color: 'black',
                   }}
-                  onClick={() => {/* Handle Google Login */}}
+                  onClick={() => googleLogin()}
                 >
                   <img
                     src={google}
@@ -211,7 +221,8 @@ export default function Login() {
                   />
                   Continue with Google
                 </Button>
-                <Button
+
+                {/* <Button
                   variant="outlined"
                   sx={{
                     width: '100%',
@@ -220,11 +231,12 @@ export default function Login() {
                     justifyContent: 'center',
                     mb: 2,
                     borderRadius: '30px',
-                    borderColor: 'black', // Light border color
-                    color: 'black', // Text color
-                    backgroundColor: 'transparent', // Transparent background
+                    borderColor: 'black',
+                    color: 'black',
                   }}
-                  onClick={() => {/* Handle Aadhar Login */}}
+                  onClick={() => {
+                    
+                  }}
                 >
                   <img
                     src={aadhar}
@@ -234,7 +246,7 @@ export default function Login() {
                     height="20"
                   />
                   Continue with Aadhar
-                </Button>
+                </Button> */}
               </Box>
               <Copyright sx={{ mt: 5 }} />
             </Box>

@@ -14,11 +14,12 @@ public class PeriodRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;          // Changed from userName to name
-    private String email;         // Changed from userEmail to email
+    private String name;
+    private String email;
     private String location;
     private Date requestDate;
-    private String phoneNumber;   // Field for phone number
+    private String phoneNumber;
+    private String napkinBrand; // New field for napkin brand
 
     // Getters and Setters
     public Long getId() { return id; }
@@ -33,4 +34,6 @@ public class PeriodRequest {
     public void setRequestDate(Date requestDate) { this.requestDate = requestDate; }
     public String getPhoneNumber() { return phoneNumber; }
     public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+    public String getNapkinBrand() { return napkinBrand; }
+    public void setNapkinBrand(String napkinBrand) { this.napkinBrand = napkinBrand; }
 }
